@@ -2,71 +2,41 @@ export const frequencyQueries = (queries: number[][]): (0 | 1)[] => {
   const INSERT = 1
   const DELETE = 2
   const CHECK_FREQUENCY = 3
-  const dataFrequency = {}
-  const frequencyFrequency = {}
+  const count = {}
+  const frequency = {}
   const result = []
 
-  const updateFrequencyFrequency = (
-    dataFrequency,
-    frequencyFrequency,
-    operation,
-    data
-  ) => {
-    const dataCurrentFrequency = dataFrequency[data]
-
-    if (frequencyFrequency[dataCurrentFrequency]) {
-      frequencyFrequency[dataCurrentFrequency]++
-    } else {
-      frequencyFrequency[dataCurrentFrequency] = 1
-    }
-    const dataPreviousFrequency =
-      operation === INSERT
-        ? dataCurrentFrequency > 0
-          ? dataCurrentFrequency - 1
-          : dataCurrentFrequency
-        : dataCurrentFrequency >= 0
-        ? dataCurrentFrequency + 1
-        : dataCurrentFrequency
-    if (frequencyFrequency[dataPreviousFrequency]) {
-      frequencyFrequency[dataPreviousFrequency]--
-    } else {
-      frequencyFrequency[dataPreviousFrequency] = 0
-    }
+  const updateFrequency = (frequency, previousCount, currentCount) => {
+    frequency[currentCount] = (frequency[currentCount] || 0) + 1
+    frequency[previousCount] =
+      frequency[previousCount] > 0
+        ? frequency[previousCount] - 1
+        : frequency[previousCount]
   }
 
   for (const q of queries) {
     const operation = q[0]
     const data = q[1]
+    const previousCount = count[data] || 0
     switch (operation) {
-      case INSERT:
-        if (dataFrequency[data] && dataFrequency[data] >= 0) {
-          dataFrequency[data]++
-        } else {
-          dataFrequency[data] = 1
+      case INSERT: {
+        const currentCount = previousCount + 1
+        count[data] = currentCount
+        updateFrequency(frequency, previousCount, currentCount)
+        break
+      }
+      case DELETE: {
+        if (previousCount > 0) {
+          const currentCount = previousCount - 1
+          count[data] = currentCount
+          updateFrequency(frequency, previousCount, currentCount)
         }
-        updateFrequencyFrequency(
-          dataFrequency,
-          frequencyFrequency,
-          operation,
-          data
-        )
         break
-      case DELETE:
-        if (dataFrequency[data] && dataFrequency[data] > 0) {
-          dataFrequency[data]--
-        }
-        updateFrequencyFrequency(
-          dataFrequency,
-          frequencyFrequency,
-          operation,
-          data
-        )
+      }
+      case CHECK_FREQUENCY: {
+        result.push(frequency[data] && frequency[data] >= 0 ? 1 : 0)
         break
-      case CHECK_FREQUENCY:
-        result.push(
-          frequencyFrequency[data] && frequencyFrequency[data] !== -1 ? 1 : 0
-        )
-        break
+      }
       default:
         break
     }
