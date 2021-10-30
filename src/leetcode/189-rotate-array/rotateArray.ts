@@ -19,11 +19,11 @@ export const rotate = (nums: number[], k: number): void => {
   const head = []
   const n = nums.length
   const actualK = k % n
-  for (let i = 0; i < actualK; i++) {
+  for (let i = actualK + 1; i < n; i++) {
     head.push(nums[i])
   }
-  for (let i = actualK; i < n; i++) {
-    nums[i] = nums[i + actualK]
+  for (let i = actualK + 1; i < n; i++) {
+    nums[i] = nums[i - actualK]
   }
   for (let i = actualK, j = 0; i < n; i++, j++) {
     nums[i] = head[j]
