@@ -28,7 +28,6 @@ export const checkInclusion = (s1: string, s2: string): boolean => {
       return true
     }
     subStrMap[s2[i - 1]]--
-    subStrMap[s2[i - 1]] === 0 && delete subStrMap[s2[i - 1]]
     subStrMap[s2[j]] = subStrMap[s2[j]] ? subStrMap[s2[j]] + 1 : 1
   }
   if (match(s1Map, subStrMap)) {

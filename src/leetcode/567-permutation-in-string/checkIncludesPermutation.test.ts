@@ -7,7 +7,7 @@ describe('permutation in string', () => {
   it('test case 1', () => {
     expect(checkInclusion('ab', 'eidboaoo')).toBe(false)
   })
-  fit('test case 2', () => {
+  it('test case 2', () => {
     expect(checkInclusion('adc', 'dcda')).toBe(true)
   })
 })
