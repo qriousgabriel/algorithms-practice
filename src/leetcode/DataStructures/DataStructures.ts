@@ -86,7 +86,10 @@ export const createArrayFromBinaryTreeInLevelOrder = (
   while (queue.length > 0) {
     let currentNode = queue.shift()
     arr.push(currentNode ? currentNode.val : null)
-    if (currentNode !== null) {
+    if (
+      currentNode !== null &&
+      (currentNode.left !== null || currentNode.right !== null)
+    ) {
       queue.push(currentNode.left)
       queue.push(currentNode.right)
     }
