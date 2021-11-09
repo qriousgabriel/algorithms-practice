@@ -1,7 +1,7 @@
 import {
   createArrayFromBinaryTreeInLevelOrder,
   createBinaryTreeFromArrayInLevelOrder,
-} from './dataStructures'
+} from './DataStructures'
 
 describe('building/traversing tree', () => {
   const arr = [2, 1, 3, null, 4, null, 7]

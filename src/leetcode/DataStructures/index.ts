@@ -1,4 +1,5 @@
 export {
+  TreeNode,
   createArrayFromBinaryTreeInLevelOrder,
   createBinaryTreeFromArrayInLevelOrder,
-} from './dataStructures'
+} from './DataStructures'
